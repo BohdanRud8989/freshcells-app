@@ -37,7 +37,7 @@ const ProfileForm = () => {
   }
   if (error) {
     return (
-      <h1 className="profile-form__notification">
+      <h1 className="profile-form__notification profile-form__notification--error">
         Failed to load user data: {error.message}
       </h1>
     );
