@@ -6,12 +6,17 @@
   gap: 24px;
   padding: 12px;
   width: auto;
-  background-color: @gray-5;
-  border-radius: @border-radius-2;
+  background-color: @gray-3;
+  border-radius: @border-radius-1;
 
   @media (min-width: @tablet-portrait) {
     padding: 24px;
     width: 25rem;
+  }
+
+  &__notification {
+    font-size: calc(@font-size-xl / 1.5);
+    color: @error;
   }
 
   &__logout-button {

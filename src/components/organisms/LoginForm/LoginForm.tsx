@@ -1,10 +1,12 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@apollo/client";
 import { LoginButton, EmailFormItem } from "../../atoms";
 import { PasswordFormItem } from "../../molecules";
 import { useTask } from "../../../hooks";
-import { ExtractRef } from "../../../types";
-// import { app } from "../../../config";
+import { ExtractRef, UserLoginMutationResponse } from "../../../types";
+import { UserLoginMutation } from "../../../data";
+import { JWT_TOKEN_KEY } from "../../../utils";
 
 import "./loginForm.less";
 
@@ -16,12 +18,21 @@ const LoginForm = () => {
   const emailFormItemRef = useRef<ExtractRef<typeof EmailFormItem>>(null);
   const passwordFormItemRef = useRef<ExtractRef<typeof PasswordFormItem>>(null);
   const navigate = useNavigate();
+  const [loginMutation, { data, error }] =
+    useMutation<UserLoginMutationResponse>(UserLoginMutation);
 
-  // Submits the form(saves the data to GraphQL API and if it's successful redirects the user to profile page)
+  // If login is successful - redirects the user to the Profile page
+  useEffect(() => {
+    if (data?.login.jwt) {
+      sessionStorage.setItem(JWT_TOKEN_KEY, data.login.jwt);
+      navigate(`/profile`);
+    }
+  }, [data]);
+
+  // Logs in the user(call GraphQL mutation)
   const [submitting, handleSubmit] = useTask(
     async (e: React.ChangeEvent<HTMLFormElement>) => {
       e.preventDefault();
-
       if (
         submitting ||
         emailFormItemRef.current === null ||
@@ -35,32 +46,7 @@ const LoginForm = () => {
       const { isValid: isEmailValid, value: email } = emailFormItemRef.current;
 
       if (isEmailValid && isPasswordValid) {
-        // Handle successful login here
-        console.log(
-          "LoginForm: Login successful: email, password: ",
-          email,
-          password,
-        );
-
-        // const payload = { email, password } as FormValues;
-        //TODO call API with app.apiUrl
-        const apiCall = new Promise((resolve) => {
-          // call real API
-          setTimeout(() => {
-            resolve({
-              success: true,
-              error: false,
-              firstName: "Bodya",
-              lastName: "RUD",
-            });
-          }, 3000);
-        });
-        const { error, firstName, lastName }: any = await apiCall;
-
-        if (error) {
-          alert(`Error saving data to API: ${error}`);
-        }
-        navigate(`/profile/${firstName} ${lastName}`);
+        await loginMutation({ variables: { identifier: email, password } });
       }
     },
   );
@@ -73,11 +59,15 @@ const LoginForm = () => {
       </div>
       <EmailFormItem ref={emailFormItemRef} />
       <PasswordFormItem ref={passwordFormItemRef} />
-      {/*!emailFormItemRef.current?.isValid ||
-        !passwordFormItemRef.current?.isValid || TODO */}
       <LoginButton disabled={submitting} loading={submitting}>
         Login
       </LoginButton>
+      {error && (
+        <span className="login-form__error">
+          Failed to login. Please try with another credentials. (Error:{" "}
+          {error.message})
+        </span>
+      )}
     </form>
   );
 };

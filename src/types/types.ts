@@ -25,3 +25,9 @@ export type PasswordValidationDescription = {
     containsDigit: boolean;
   };
 };
+
+export interface UserLoginMutationResponse {
+  login: {
+    jwt: string;
+  };
+}

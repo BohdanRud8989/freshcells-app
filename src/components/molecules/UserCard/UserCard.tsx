@@ -1,25 +1,22 @@
 import cx from "classnames";
-import { useParams } from "react-router-dom";
 import { FormItem } from "../../atoms";
 
 import "./userCard.less";
 
 type UserCardProps = {
   className?: string;
+  firstName?: string;
+  lastName?: string;
 };
 
-//TODO update
 /**
- * Login form button
- * @param {boolean} disabled - disabled state
- * @param {React.ReactNode} children - children component
- * @param {Object} props - rest of the props
+ * User card - displays main user info
+ * @param {string} className - alternative css class name of the main container
+ * @param {string} firstName - user first name
+ * @param {string} lastName - user last name
  * @returns {JSX.Element}
  */
-const UserCard = ({ className }: UserCardProps) => {
-  const { fullName = "" } = useParams<string>();
-  const [firstName, lastName] = fullName.split(" ");
-
+const UserCard = ({ className, firstName, lastName }: UserCardProps) => {
   return (
     <section className={cx("user-card", className)}>
       <FormItem label="First Name" value={firstName} id="firstName" />

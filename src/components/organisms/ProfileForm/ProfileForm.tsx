@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import { UserCard } from "../../molecules";
+import { GetUserQuery } from "../../../data";
+import { JWT_TOKEN_KEY } from "../../../utils";
 
 import "./profileForm.less";
 
@@ -9,15 +12,43 @@ import "./profileForm.less";
  */
 const ProfileForm = () => {
   const navigate = useNavigate();
+  const { data, loading, error } = useQuery(GetUserQuery, {
+    variables: {
+      userId: 2,
+    },
+    context: {
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem(JWT_TOKEN_KEY)}`,
+      },
+    },
+  });
 
   const handleUserLogout = () => {
-    // TODO refresh the token
+    sessionStorage.removeItem(JWT_TOKEN_KEY);
     navigate("/");
   };
 
+  if (loading) {
+    return (
+      <h1 className="profile-form__notification">
+        Please wait, user data is being loaded...
+      </h1>
+    );
+  }
+  if (error) {
+    return (
+      <h1 className="profile-form__notification">
+        Failed to load user data: {error.message}
+      </h1>
+    );
+  }
+
   return (
     <section className="profile-form">
-      <UserCard />
+      <UserCard
+        firstName={data?.user.firstName}
+        lastName={data?.user.lastName}
+      />
       <button
         className="profile-form__logout-button"
         onClick={handleUserLogout}

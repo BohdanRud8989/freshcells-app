@@ -1,15 +1,16 @@
-# This is a SPA React application that allows users to register with GDPR.
+# This is a SPA React application that allows users to login and observe his information.
 
 Features:
 
-- User registration form with data validation
+- User login form with fields validation
 
 Technologies Used:
 
 - React
 - Vite: Development server and build tool for modern web applications
 - TypeScript
-- Ant Design: React UI component library
+- cx: classnames library(to display class list depending on conditions)
+- Apollo Client for GraphQL API(jwt token is stored in `sessionStorage`)
 
 ## Initial setup
 
@@ -24,17 +25,8 @@ npm install
 
 There is `.env` file, you can configure it.
 
-- to use mocked API change this param to:
-
 ```
-REACT_APP_MOCKED_API=true
-```
-
-- to emulate server error response use this combination:
-
-```
-VITE_REACT_APP_MOCKED_API=true
-VITE_REACT_APP_EMULATE_SUCCESS_RESPONSE=false
+VITE_REACT_APP_API_URL=your.api.url
 ```
 
 ## Run in Development mode:
@@ -45,3 +37,7 @@ VITE_REACT_APP_EMULATE_SUCCESS_RESPONSE=false
 ## Run in Production mode:
 
 - execute `npm run preview`
+
+## Git settings:
+
+- before each commit `prettier` will be run

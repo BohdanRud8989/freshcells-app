@@ -1,7 +1,7 @@
 {
   "name": "freshcells-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -19,12 +19,13 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
       "prettier --write --ignore-unknown"
     ]
   },
   "dependencies": {
+    "@apollo/client": "^3.11.8",
     "classnames": "^2.5.1",
+    "graphql": "^15.9.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1"

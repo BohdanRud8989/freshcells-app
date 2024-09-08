@@ -27,8 +27,6 @@ export const PasswordFormItem = forwardRef<InputRef, PasswordFormItemProps>(
       password,
     ]);
 
-    console.log("PasswordFormItem: isValid: ", isValid);
-
     const handlePasswordChange = ({
       target: { value },
     }: React.ChangeEvent<HTMLInputElement>) => {
