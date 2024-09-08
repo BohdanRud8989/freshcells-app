@@ -1,0 +1,25 @@
+@import "../../../assets/less/variables";
+
+.login-button {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+
+  &:hover,
+  :focus {
+    background-color: lighten(@accent-color, 10%);
+  }
+
+  &--disabled {
+    background-color: lighten(@secondary-color, 30%);
+
+    &:hover,
+    :focus {
+      background-color: lighten(@secondary-color, 30%);
+    }
+  }
+
+  &__text {
+    text-transform: uppercase;
+  }
+}
