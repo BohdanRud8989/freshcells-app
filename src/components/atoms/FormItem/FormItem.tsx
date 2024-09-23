@@ -1,6 +1,6 @@
 import "./formItem.less";
 
-type FormItemProps = {
+export type FormItemProps = {
   label: string;
   value?: string;
   id: string;

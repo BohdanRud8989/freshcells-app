@@ -27,7 +27,7 @@ const LoginForm = () => {
       sessionStorage.setItem(JWT_TOKEN_KEY, data.login.jwt);
       navigate(`/profile`);
     }
-  }, [data]);
+  }, [data, navigate]);
 
   // Logs in the user(call GraphQL mutation)
   const [submitting, handleSubmit] = useTask(

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { UserCard } from "../../molecules";
 import { GetUserQuery } from "../../../data";
-import { JWT_TOKEN_KEY } from "../../../utils";
+import { JWT_TOKEN_KEY, USER_ID_QUERY_VAR } from "../../../utils";
 
 import "./profileForm.less";
 
@@ -14,7 +14,7 @@ const ProfileForm = () => {
   const navigate = useNavigate();
   const { data, loading, error } = useQuery(GetUserQuery, {
     variables: {
-      userId: 2,
+      userId: USER_ID_QUERY_VAR,
     },
     context: {
       headers: {

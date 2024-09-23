@@ -1,5 +1,5 @@
 import cx from "classnames";
-import { FormItem } from "../../atoms";
+import { FormItem, FormItemProps } from "../../atoms";
 
 import "./userCard.less";
 
@@ -17,10 +17,15 @@ type UserCardProps = {
  * @returns {JSX.Element}
  */
 const UserCard = ({ className, firstName, lastName }: UserCardProps) => {
+  const formItems: FormItemProps[] = [
+    { value: firstName, id: "firstName", label: "First Name" },
+    { value: lastName, id: "lastName", label: "Last Name" },
+  ];
   return (
     <section className={cx("user-card", className)}>
-      <FormItem label="First Name" value={firstName} id="firstName" />
-      <FormItem label="Last Name" value={lastName} id="lastName" />
+      {formItems.map(({ value, id, label }) => (
+        <FormItem key={id} id={id} label={label} value={value} />
+      ))}
     </section>
   );
 };
